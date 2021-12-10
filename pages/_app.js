@@ -7,17 +7,17 @@ import { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
-  const [authenticatedState, setAuthenticatedState] = useState('not-authenticated')
+  const [authenticatedState, setAuthenticatedState] = useState(false)
   useEffect(() => {
     /* fires when a user signs in or out */
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       handleAuthChange(event, session)
       if (event === 'SIGNED_IN') {
-        setAuthenticatedState('authenticated')
+        setAuthenticatedState(true)
         router.push('/profile')
       }
       if (event === 'SIGNED_OUT') {
-        setAuthenticatedState('not-authenticated')
+        setAuthenticatedState(false)
       }
     })
     checkUser()
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
     /* when the component loads, checks user to show or hide Sign In link */
     const user = await supabase.auth.user()
     if (user) {
-      setAuthenticatedState('authenticated')
+      setAuthenticatedState(true)
     }
   }
   async function handleAuthChange(event, session) {
