@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const [authenticatedState, setAuthenticatedState] = useState(false)
   useEffect(() => {
-    /* fires when a user signs in or out */
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       handleAuthChange(event, session)
       if (event === 'SIGNED_IN') {
@@ -26,14 +25,12 @@ function MyApp({ Component, pageProps }) {
     }
   }, [])
   async function checkUser() {
-    /* when the component loads, checks user to show or hide Sign In link */
     const user = await supabase.auth.user()
     if (user) {
       setAuthenticatedState(true)
     }
   }
   async function handleAuthChange(event, session) {
-    /* sets and removes the Supabase cookie */
     await fetch('/api/auth', {
       method: 'POST',
       headers: new Headers({ 'Content-Type': 'application/json' }),
