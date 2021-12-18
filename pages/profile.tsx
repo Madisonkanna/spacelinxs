@@ -20,7 +20,9 @@ export default function Profile() {
     await supabase.auth.signOut()
     router.push('/sign-in')
   }
-  if (!profile) return null
+  if (!profile) {
+    return null
+  }
   return (
     <div style={{ maxWidth: '420px', margin: '96px auto' }}>
       <h2>Hello, {profile.email}</h2>
